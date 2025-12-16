@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}Budgets · Finance Tracker{% endblock %}
+{% block content %}
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <div>
+      <h1 class="h4 mb-1">Budgets</h1>
+      <div class="text-muted">For {{ month_start }} (first day of the month)</div>
+    </div>
+    <a class="btn btn-outline-primary" href="{% url 'transaction_list' %}">View transactions</a>
+  </div>
+
+  <div class="row g-3">
+    <div class="col-lg-5">
+      <div class="card shadow-sm">
+        <div class="card-body p-4">
+          <h2 class="h6 mb-3">Set a budget</h2>
+          <form method="post" novalidate>
+            {% csrf_token %}
+            {% for field in form %}
+              <div class="mb-3">
+                <label class="form-label">{{ field.label }}</label>
+                {{ field }}
+                {% for error in field.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+                {% if field.name == "category" %}
+                  <div class="form-text">Leave blank for an overall monthly budget.</div>
+                {% endif %}
+              </div>
+            {% endfor %}
+            <button class="btn btn-primary" type="submit">Save budget</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="card shadow-sm mt-3">
+        <div class="card-body p-4">
+          <h2 class="h6 mb-3">Month-to-date spending (expenses)</h2>
+          <ul class="list-group">
+            {% for row in spending %}
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span>{{ row.category__name|default:"Uncategorised" }}</span>
+                <span>€{{ row.total }}</span>
+              </li>
+            {% empty %}
+              <li class="list-group-item text-muted">No expense transactions yet this month.</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-7">
+      <div class="card shadow-sm">
+        <div class="card-body p-0">
+          <div class="p-4 border-bottom">
+            <h2 class="h6 mb-0">Budgets set for this month</h2>
+          </div>
+          <div class="table-responsive">
+            <table class="table mb-0 align-middle">
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th class="text-end">Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for b in budgets %}
+                  <tr>
+                    <td>{{ b.category.name|default:"Overall" }}</td>
+                    <td class="text-end">€{{ b.amount }}</td>
+                  </tr>
+                {% empty %}
+                  <tr><td colspan="2" class="text-center py-4 text-muted">No budgets set yet for this month.</td></tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert alert-info mt-3">
+        Next step (Week 5+): analytics charts + currency conversion API can plug into this data model.
+      </div>
+    </div>
+  </div>
+{% endblock %}

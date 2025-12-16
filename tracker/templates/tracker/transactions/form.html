@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Transaction · Finance Tracker{% endblock %}
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-lg-7">
+      <div class="card shadow-sm">
+        <div class="card-body p-4">
+          <h1 class="h4 mb-3">{% if object %}Edit{% else %}Add{% endif %} transaction</h1>
+
+          <form method="post" novalidate>
+            {% csrf_token %}
+            {% for field in form %}
+              <div class="mb-3">
+                <label class="form-label">{{ field.label }}</label>
+                {{ field }}
+                {% for error in field.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+              </div>
+            {% endfor %}
+            {% for error in form.non_field_errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+
+            <div class="d-flex gap-2">
+              <button class="btn btn-primary" type="submit">Save</button>
+              <a class="btn btn-outline-secondary" href="{% url 'transaction_list' %}">Cancel</a>
+            </div>
+          </form>
+
+          <div class="text-muted small mt-3">
+            Tip: Categories are auto-seeded when you open Budgets the first time (you can improve this later with a Categories page).
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

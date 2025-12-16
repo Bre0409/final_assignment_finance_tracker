@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · Finance Tracker{% endblock %}
+{% block content %}
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <div>
+      <h1 class="h4 mb-1">Dashboard</h1>
+      <div class="text-muted">Month-to-date summary (from {{ month_start }} to {{ today }})</div>
+    </div>
+    <div class="d-flex gap-2">
+      <a class="btn btn-sm btn-outline-primary" href="{% url 'transaction_create' %}">+ Add transaction</a>
+      <a class="btn btn-sm btn-outline-secondary" href="{% url 'budget_overview' %}">Budgets</a>
+    </div>
+  </div>
+
+  <div class="row g-3">
+    <div class="col-md-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="text-muted">Income</div>
+          <div class="display-6">€{{ income }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="text-muted">Expenses</div>
+          <div class="display-6">€{{ expense }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="text-muted">Net</div>
+          <div class="display-6">€{{ net }}</div>
+          {% if total_budget %}
+            <div class="small text-muted mt-2">Total budget set: €{{ total_budget }}</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

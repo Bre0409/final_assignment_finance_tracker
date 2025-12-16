@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Delete transaction · Finance Tracker{% endblock %}
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-md-7 col-lg-6">
+      <div class="card shadow-sm">
+        <div class="card-body p-4">
+          <h1 class="h5 mb-2">Delete transaction?</h1>
+          <p class="text-muted mb-4">This can’t be undone.</p>
+
+          <div class="border rounded p-3 mb-3">
+            <div><strong>Date:</strong> {{ object.date }}</div>
+            <div><strong>Type:</strong> {{ object.type }}</div>
+            <div><strong>Amount:</strong> €{{ object.amount }}</div>
+            <div><strong>Description:</strong> {{ object.description|default:"—" }}</div>
+          </div>
+
+          <form method="post">
+            {% csrf_token %}
+            <button class="btn btn-danger" type="submit">Yes, delete</button>
+            <a class="btn btn-outline-secondary ms-2" href="{% url 'transaction_list' %}">Cancel</a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
