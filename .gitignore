@@ -1,0 +1,9 @@
+        deleted:    tracker/__pycache__/urls.cpython-313.pyc
+        deleted:    tracker/__pycache__/views.cpython-313.pyc
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        accounts/__pycache__/
+        core/__pycache__/
+        finance_tracker/__pycache__/
+        tracker/__pycache__/
