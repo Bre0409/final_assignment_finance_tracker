@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
+from services.currency import get_latest_rates
 from .forms import TransactionForm, BudgetForm
 from .models import Transaction, Budget, Category
 
@@ -25,13 +26,41 @@ class TransactionListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
+
         today = timezone.localdate()
         month_start = today.replace(day=1)
         tx = self.get_queryset().filter(date__gte=month_start, date__lte=today)
+
         ctx["income"] = tx.filter(type=Transaction.Type.INCOME).aggregate(total=Sum("amount"))["total"] or 0
         ctx["expense"] = tx.filter(type=Transaction.Type.EXPENSE).aggregate(total=Sum("amount"))["total"] or 0
         ctx["month_start"] = month_start
         ctx["today"] = today
+
+        # -----------------------------
+        # Display currency + FX rate for list conversion
+        # -----------------------------
+        allowed = ("EUR", "USD", "GBP")
+        display_currency = self.request.session.get("display_currency", "EUR")
+        if display_currency not in allowed:
+            display_currency = "EUR"
+
+        symbol_map = {"EUR": "€", "USD": "$", "GBP": "£"}
+
+        fx_error = None
+        rate = None
+
+        try:
+            if display_currency != "EUR":
+                fx = get_latest_rates(base="EUR", symbols=(display_currency,))
+                rate = fx.rates.get(display_currency) if fx else None
+        except Exception:
+            fx_error = "FX unavailable"
+
+        ctx["display_currency"] = display_currency
+        ctx["display_symbol"] = symbol_map.get(display_currency, "€")
+        ctx["tx_fx_rate"] = rate
+        ctx["tx_fx_error"] = fx_error
+
         return ctx
 
 
@@ -117,7 +146,12 @@ def budget_overview(request):
 
     # month-to-date spending per category (expenses only)
     spending = (
-        Transaction.objects.filter(user=request.user, type=Transaction.Type.EXPENSE, date__gte=month_start, date__lte=today)
+        Transaction.objects.filter(
+            user=request.user,
+            type=Transaction.Type.EXPENSE,
+            date__gte=month_start,
+            date__lte=today
+        )
         .values("category__id", "category__name")
         .annotate(total=Sum("amount"))
         .order_by("-total")

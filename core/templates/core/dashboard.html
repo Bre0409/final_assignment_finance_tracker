@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 {% block title %}Dashboard · Finance Tracker{% endblock %}
+
 {% block content %}
-  <div class="d-flex align-items-center justify-content-between mb-3">
+  <div class="d-flex align-items-center justify-content-between mb-2">
     <div>
       <h1 class="h4 mb-1">Dashboard</h1>
       <div class="text-muted">Month-to-date summary (from {{ month_start }} to {{ today }})</div>
@@ -12,31 +13,103 @@
     </div>
   </div>
 
+  {# Currency dropdown + FX status badge #}
+  <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between mb-3">
+    <form method="get" class="d-flex gap-2 align-items-center">
+      <label class="form-label mb-0 small text-muted">Display currency</label>
+      <select name="currency" class="form-select form-select-sm" onchange="this.form.submit()">
+        <option value="EUR" {% if display_currency == "EUR" %}selected{% endif %}>EUR (€)</option>
+        <option value="USD" {% if display_currency == "USD" %}selected{% endif %}>USD ($)</option>
+        <option value="GBP" {% if display_currency == "GBP" %}selected{% endif %}>GBP (£)</option>
+      </select>
+      <noscript>
+        <button class="btn btn-sm btn-outline-secondary" type="submit">Apply</button>
+      </noscript>
+    </form>
+
+    <div class="d-flex gap-2 align-items-center">
+      {% if fx_error %}
+        <span class="badge text-bg-warning">FX: unavailable</span>
+      {% elif fx_date %}
+        <span class="badge text-bg-light border">Rates date: {{ fx_date }}</span>
+      {% endif %}
+    </div>
+  </div>
+
   <div class="row g-3">
     <div class="col-md-4">
       <div class="card shadow-sm">
         <div class="card-body">
           <div class="text-muted">Income</div>
-          <div class="display-6">€{{ income }}</div>
+          <div class="display-6">{{ display_symbol }}{{ display_income }}</div>
+          {% if display_currency != "EUR" %}
+            <div class="small text-muted">Stored in EUR: €{{ income }}</div>
+          {% endif %}
         </div>
       </div>
     </div>
+
     <div class="col-md-4">
       <div class="card shadow-sm">
         <div class="card-body">
           <div class="text-muted">Expenses</div>
-          <div class="display-6">€{{ expense }}</div>
+          <div class="display-6">{{ display_symbol }}{{ display_expense }}</div>
+          {% if display_currency != "EUR" %}
+            <div class="small text-muted">Stored in EUR: €{{ expense }}</div>
+          {% endif %}
         </div>
       </div>
     </div>
+
     <div class="col-md-4">
       <div class="card shadow-sm">
         <div class="card-body">
           <div class="text-muted">Net</div>
-          <div class="display-6">€{{ net }}</div>
+          <div class="display-6">{{ display_symbol }}{{ display_net }}</div>
           {% if total_budget %}
-            <div class="small text-muted mt-2">Total budget set: €{{ total_budget }}</div>
+            <div class="small text-muted mt-2">Total budget set (EUR): €{{ total_budget }}</div>
           {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {# Optional: Show exact EUR->USD/GBP rates card #}
+  <div class="row g-3 mt-1">
+    <div class="col-lg-6">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h2 class="h6 mb-2">Exchange rates</h2>
+
+          {% if fx_error %}
+            <div class="text-muted">{{ fx_error }}</div>
+          {% elif fx %}
+            <div class="text-muted small mb-2">Base: {{ fx.base }} · Date: {{ fx.date }}</div>
+            <ul class="list-group">
+              <li class="list-group-item d-flex justify-content-between">
+                <span>EUR → USD</span>
+                <strong>{{ fx.rates.USD }}</strong>
+              </li>
+              <li class="list-group-item d-flex justify-content-between">
+                <span>EUR → GBP</span>
+                <strong>{{ fx.rates.GBP }}</strong>
+              </li>
+            </ul>
+          {% else %}
+            <div class="text-muted">No rate data yet.</div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h2 class="h6 mb-2">Notes</h2>
+          <div class="text-muted">
+            This MVP stores transaction amounts in EUR and converts for display only.
+            (Later we can add per-transaction currency + conversions.)
+          </div>
         </div>
       </div>
     </div>
