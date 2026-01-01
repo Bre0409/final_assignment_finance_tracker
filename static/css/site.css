@@ -1,2 +1,212 @@
-/* Keep styling minimal; Bootstrap does most of the work */
-.card { border-radius: 1rem; }
+/* =========================
+   Glossy Black Theme 
+   ========================= */
+
+:root {
+  --bg-0: #07090d;        /* page background */
+  --bg-1: #0b0f16;        /* surfaces */
+  --bg-2: #0f1623;        /* elevated surfaces */
+
+  --text-0: #e8eefc;      /* primary text */
+  --text-1: rgba(232, 238, 252, 0.82); /* secondary text */
+
+  --border: rgba(255, 255, 255, 0.10);
+  --accent: #5aa2ff;      /* modern blue */
+  --accent-2: #7c5cff;    /* violet accent */
+
+  --success: #41d19f;
+  --danger: #ff5a7a;
+}
+
+/* Page */
+html, body {
+  background: radial-gradient(1200px 600px at 20% 10%, rgba(90, 162, 255, 0.15), transparent 60%),
+              radial-gradient(900px 500px at 80% 20%, rgba(124, 92, 255, 0.12), transparent 55%),
+              linear-gradient(180deg, var(--bg-0), #05060a 70%);
+  color: var(--text-0);
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+/* Links */
+a { color: var(--accent); }
+a:hover { color: #86bbff; }
+
+/* Navbar */
+.navbar {
+  background: rgba(11, 15, 22, 0.75) !important;
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(10px);
+}
+
+.navbar .navbar-brand {
+  letter-spacing: 0.2px;
+}
+
+/* Cards */
+.card {
+  background: linear-gradient(180deg, rgba(15, 22, 35, 0.82), rgba(11, 15, 22, 0.82));
+  border: 1px solid var(--border);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+  border-radius: 16px;
+}
+
+.card .card-body {
+  color: var(--text-0);
+}
+
+/* subtle hover lift*/
+.card:hover {
+  transform: translateY(-1px);
+  transition: transform 140ms ease, box-shadow 140ms ease;
+  box-shadow: 0 14px 32px rgba(0,0,0,0.42);
+}
+
+/* Improve readability of muted text on dark backgrounds */
+.text-muted,
+.small.text-muted,
+.form-text {
+  color: var(--text-1) !important;
+}
+
+/* Forms */
+.form-label, label {
+  color: rgba(232, 238, 252, 0.90);
+}
+
+.form-control, .form-select {
+  background-color: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  color: var(--text-0);
+  border-radius: 12px;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: rgba(90, 162, 255, 0.65);
+  box-shadow: 0 0 0 0.25rem rgba(90, 162, 255, 0.15);
+  background-color: rgba(255, 255, 255, 0.06);
+  color: var(--text-0);
+}
+
+/* Make dropdown options readable on dark bg */
+select option {
+  background: #0b0f16;
+  color: var(--text-0);
+}
+
+/* Buttons */
+.btn-primary {
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  border: 0;
+  border-radius: 12px;
+  box-shadow: 0 10px 18px rgba(90, 162, 255, 0.16);
+}
+
+.btn-primary:hover {
+  filter: brightness(1.05);
+}
+
+.btn-outline-secondary,
+.btn-outline-primary,
+.btn-outline-danger {
+  border-radius: 12px;
+}
+
+.btn-outline-secondary {
+  border-color: var(--border);
+  color: var(--text-0);
+}
+
+.btn-outline-secondary:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.btn-outline-primary {
+  border-color: rgba(90, 162, 255, 0.55);
+  color: var(--accent);
+}
+
+.btn-outline-primary:hover {
+  background: rgba(90, 162, 255, 0.10);
+  border-color: rgba(90, 162, 255, 0.75);
+  color: #a8d0ff;
+}
+
+.btn-outline-danger {
+  border-color: rgba(255, 90, 122, 0.55);
+  color: var(--danger);
+}
+
+.btn-outline-danger:hover {
+  background: rgba(255, 90, 122, 0.10);
+  border-color: rgba(255, 90, 122, 0.75);
+  color: #ff93a7;
+}
+
+/* Badges */
+.badge.text-bg-warning {
+  background: rgba(255, 193, 7, 0.15) !important;
+  color: #ffd36a !important;
+  border: 1px solid rgba(255, 193, 7, 0.25);
+}
+
+.badge.text-bg-light {
+  background: rgba(255, 255, 255, 0.06) !important;
+  color: var(--text-0) !important;
+  border: 1px solid var(--border) !important;
+}
+
+/* Tables */
+.table {
+  --bs-table-bg: transparent;
+  --bs-table-color: var(--text-0);
+  --bs-table-striped-bg: rgba(255, 255, 255, 0.04);
+  --bs-table-striped-color: var(--text-0);
+  --bs-table-hover-bg: rgba(90, 162, 255, 0.06);
+  border-color: var(--border);
+}
+
+.table thead th {
+  color: rgba(232, 238, 252, 0.92);
+  border-color: var(--border);
+}
+
+.table td, .table th {
+  border-color: var(--border);
+}
+
+.table td {
+  color: rgba(232, 238, 252, 0.88);
+}
+
+/* List group items (Bootstrap list-group uses white bg by default) */
+.list-group-item {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--border);
+  color: rgba(232, 238, 252, 0.90);
+}
+
+.list-group-item strong {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+/* Alerts (make them match dark theme) */
+.alert {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--border);
+  color: rgba(232, 238, 252, 0.90);
+}
+
+.alert-info {
+  background: rgba(90, 162, 255, 0.08);
+  border-color: rgba(90, 162, 255, 0.20);
+}
+
+/* Canvas container (chart) */
+canvas {
+  max-width: 100%;
+}
