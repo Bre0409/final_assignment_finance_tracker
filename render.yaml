@@ -25,7 +25,7 @@ services:
       - key: ADMIN_EMAIL
         value: admin@example.com
       - key: ADMIN_PASSWORD
-        value: StrongPassword123
+        value: Hendrix123
 
 databases:
   - name: pft-db
