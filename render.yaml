@@ -3,42 +3,29 @@ services:
     name: personal-finance-tracker
     env: python
     plan: free
-
-    buildCommand: >
-      pip install -r requirements.txt &&
-      python manage.py collectstatic --noinput &&
-      python manage.py migrate &&
-      python create_superuser.py
-
+    buildCommand: ./build.sh
     startCommand: gunicorn finance_tracker.wsgi:application --bind 0.0.0.0:$PORT
-
     envVars:
       - key: DJANGO_SECRET_KEY
         generateValue: true
-
       - key: DJANGO_DEBUG
         value: "0"
-
       - key: ALLOWED_HOSTS
         value: ".onrender.com"
-
       - key: CSRF_TRUSTED_ORIGINS
         value: "https://*.onrender.com"
-
       - key: DATABASE_URL
         fromDatabase:
           name: pft-db
           property: connectionString
 
-      # 🔴 TEMP – REMOVE AFTER LOGIN
+      # TEMP – REMOVE AFTER SUCCESS
       - key: ADMIN_USERNAME
         value: admin
-
       - key: ADMIN_EMAIL
         value: admin@example.com
-
       - key: ADMIN_PASSWORD
-        value: Hendrix123
+        value: StrongPassword123
 
 databases:
   - name: pft-db
