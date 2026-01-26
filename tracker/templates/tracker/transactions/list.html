@@ -21,9 +21,9 @@
     <a class="btn btn-primary" href="{% url 'transaction_create' %}">+ Add</a>
   </div>
 
-  {# =========================
+  {% comment %} =========================
      Desktop/tablet (md+): table
-     ========================= #}
+     =========================  {% endcomment %}
   <div class="card shadow-sm d-none d-md-block">
     <div class="card-body p-0">
       <div class="table-responsive">
@@ -79,9 +79,9 @@
     </div>
   </div>
 
-  {# =========================
+  {% comment %} {# =========================
      Mobile (sm): 2-column cards
-     ========================= #}
+     ========================= #} {% endcomment %}
   <div class="d-md-none">
     <div class="d-flex flex-column gap-2">
       {% for t in transactions %}
