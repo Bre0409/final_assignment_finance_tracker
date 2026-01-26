@@ -11,7 +11,8 @@ services:
       - key: DJANGO_DEBUG
         value: "0"
       - key: ALLOWED_HOSTS
-        value: ".onrender.com"
+        value: "personal-finance-tracker.onrender.com"
+
       - key: DATABASE_URL
         fromDatabase:
           name: pft-db
