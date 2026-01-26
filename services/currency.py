@@ -56,7 +56,7 @@ Number = Union[int, float, Decimal]
 def convert(amount: Number, rate: Number) -> Decimal:
     """
     Convert an amount using a rate.
-    Accepts int/float/Decimal safely and returns a quantized Decimal (2dp).
+    Accepts int/float/Decimal and returns a quantized Decimal (2dp).
     """
     amount_d = amount if isinstance(amount, Decimal) else Decimal(str(amount))
     rate_d = rate if isinstance(rate, Decimal) else Decimal(str(rate))
