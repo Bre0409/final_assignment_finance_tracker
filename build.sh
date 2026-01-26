@@ -3,16 +3,17 @@ set -o errexit
 
 echo "=== BUILD.SH STARTED ==="
 python --version
-pwd
-ls -la
 
+echo "=== INSTALLING DEPENDENCIES ==="
 pip install -r requirements.txt
 
+echo "=== COLLECTING STATIC FILES ==="
 python manage.py collectstatic --noinput
+
+echo "=== RUNNING MIGRATIONS ==="
 python manage.py migrate
 
-echo "=== RUNNING CREATE_SUPERUSER ==="
-python create_superuser.py
-echo "=== CREATE_SUPERUSER FINISHED ==="
+echo "=== SEEDING DEMO USER DATA ==="
+python manage.py seed_demo_data demo_user || echo "Demo data already exists, skipping"
 
 echo "=== BUILD.SH FINISHED ==="
