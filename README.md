@@ -168,3 +168,7 @@ Final Full Stack Web Application Development Assignment
 License
 
 This project is for educational purposes only.
+
+PLEASE LOGIN IN AS:
+USER: demo_user
+PASSWORD: Demo1234    This login will show a fully seeded and functioning website for you to add, delete, edit and update.

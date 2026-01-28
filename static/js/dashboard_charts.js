@@ -35,7 +35,7 @@
   const trendSeries = parseJsonScript("trend-series");
   const trendBudgetLine = parseJsonScript("trend-budget-line");
 
-  // Trend line with optional red budget limit line (high contrast for dark theme)
+  // Trend line with red budget limit line (high contrast for dark theme)
   const trendCanvas = document.getElementById("expenseTrendChart");
   if (trendCanvas && trendLabels && trendSeries) {
     const datasets = [

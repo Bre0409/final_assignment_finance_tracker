@@ -58,7 +58,7 @@ a:hover { color: #86bbff; }
   color: var(--text-0);
 }
 
-/* subtle hover lift*/
+/* subtle hover effect*/
 .card:hover {
   transform: translateY(-1px);
   transition: transform 140ms ease, box-shadow 140ms ease;
@@ -183,7 +183,7 @@ select option {
   color: rgba(232, 238, 252, 0.88);
 }
 
-/* List group items (Bootstrap list-group uses white bg by default) */
+/* List group items (Note to self: Bootstrap list-group uses white bg by default) */
 .list-group-item {
   background: rgba(255, 255, 255, 0.04);
   border-color: var(--border);

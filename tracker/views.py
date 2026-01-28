@@ -120,7 +120,7 @@ def budget_overview(request):
     today = timezone.localdate()
     month_start = today.replace(day=1)
 
-    # Basic categories seed (optional): create a few defaults if user has none
+    # Basic categories seed: create a few defaults if user has none
     if not Category.objects.filter(user=request.user).exists():
         Category.objects.bulk_create([
             Category(user=request.user, name="Salary", kind=Category.Kind.INCOME),

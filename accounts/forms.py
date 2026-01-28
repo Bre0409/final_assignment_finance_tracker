@@ -29,7 +29,7 @@ class RegisterForm(UserCreationForm):
             "placeholder": "Confirm your password",
         })
 
-        # Optional: make labels nicer
+        # nicer labels
         self.fields["password1"].label = "Password"
         self.fields["password2"].label = "Confirm password"
 

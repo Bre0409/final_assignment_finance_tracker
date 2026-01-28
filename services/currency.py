@@ -24,7 +24,7 @@ def get_latest_rates(
 ) -> RatesResult:
     """
     Fetch latest FX rates from Frankfurter and cache for 6 hours.
-    Frankfurter uses ECB reference rates (typically updated on weekdays).
+    Frankfurter uses ECB reference rates 
     """
     symbols = tuple(symbols)
     cache_key = f"fx:latest:{base}:{','.join(symbols)}"
